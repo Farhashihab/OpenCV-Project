@@ -4,14 +4,15 @@ import time
 
 
 class HandDetector():
-    def __init__(self, mode=False, maxHands=2,model_complexity=1, detectionCon=0.5, trackCon=0.5):
+    def __init__(self, mode=False, maxHands=2, model_complexity=1, detectionCon=0.5, trackCon=0.5):
         self.mode = mode
         self.maxHands = maxHands
         self.model_complexity = model_complexity
         self.detectionCon = detectionCon
         self.trackCon = trackCon
         self.mp_hands = mp.solutions.hands
-        self.my_hands = self.mp_hands.Hands(self.mode, self.maxHands,self.model_complexity, self.detectionCon, self.trackCon)
+        self.my_hands = self.mp_hands.Hands(self.mode, self.maxHands, self.model_complexity, self.detectionCon,
+                                            self.trackCon)
         self.mp_draws = mp.solutions.drawing_utils
 
     def get_hands(self, img, draw=True):
@@ -22,11 +23,10 @@ class HandDetector():
         if self.hands.multi_hand_landmarks:
             for hand in self.hands.multi_hand_landmarks:
                 if draw:
-
                     self.mp_draws.draw_landmarks(img, hand, self.mp_hands.HAND_CONNECTIONS)
         return img
 
-    def get_lm_position(self,img,handNo=0,draw=True):
+    def get_lm_position(self, img, handNo=0, draw=True):
         landmark_list = []
         if self.hands.multi_hand_landmarks:
             hand = self.hands.multi_hand_landmarks[handNo]
@@ -48,8 +48,8 @@ def main():
     while True:
         success, img = cap.read()
         img = detector.get_hands(img)
-        land_marks = detector.get_lm_position(img,draw=False)
-        if len(land_marks)!=0:
+        land_marks = detector.get_lm_position(img, draw=False)
+        if len(land_marks) != 0:
             print(land_marks[4])
 
         cur_time = time.time()
